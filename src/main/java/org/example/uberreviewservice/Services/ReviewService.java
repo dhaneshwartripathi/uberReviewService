@@ -1,5 +1,6 @@
 package org.example.uberreviewservice.Services;
 
+import jakarta.transaction.Transactional;
 import org.example.uberreviewservice.Models.Booking;
 import org.example.uberreviewservice.Models.Driver;
 import org.example.uberreviewservice.Models.Review;
@@ -26,7 +27,7 @@ public class ReviewService implements CommandLineRunner {
         this.bookingRepository = bookingRepository;
         this.driverRepository = driverRepository;
     }
-
+    @Transactional//Keeps session open during method execution, Lazy loading works
     @Override
     public void run(String... args) throws Exception {
         System.out.println("Review Service Started****************");
@@ -53,13 +54,16 @@ public class ReviewService implements CommandLineRunner {
 //        reviewRepository.deleteById(4L); //u can use all these because of JpaRepository
 
 
-        Optional<Driver> driver = driverRepository.findById(5L);
+        Optional<Driver> driver = driverRepository.findById(1L);
         if(driver.isPresent()){
             System.out.println("Driver Name : "+driver.get().getName());
+            List<Booking> b= driver.get().getBookings();
 //            List<Booking> bookings = bookingRepository.findAllByDriver_Id(1L);
-//            for(Booking booking : bookings){
-//                System.out.println(booking.getBookingStatus());
-//            }
+            System.out.println("Total bookings: " + b.size());
+            for(Booking booking : b){
+                System.out.println("ID: " + booking.getId());
+
+            }
         }
     }
 }
