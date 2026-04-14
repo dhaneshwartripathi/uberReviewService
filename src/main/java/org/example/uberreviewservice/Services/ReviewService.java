@@ -54,16 +54,20 @@ public class ReviewService implements CommandLineRunner {
 //        reviewRepository.deleteById(4L); //u can use all these because of JpaRepository
 
 
-        Optional<Driver> driver = driverRepository.findById(1L);
-        if(driver.isPresent()){
-            System.out.println("Driver Name : "+driver.get().getName());
-            List<Booking> b= driver.get().getBookings();
-//            List<Booking> bookings = bookingRepository.findAllByDriver_Id(1L);
-            System.out.println("Total bookings: " + b.size());
-            for(Booking booking : b){
-                System.out.println("ID: " + booking.getId());
-
-            }
-        }
+//        Optional<Driver> driver = driverRepository.findById(1L);
+//        if(driver.isPresent()){
+//            System.out.println("Driver Name : "+driver.get().getName());
+//            List<Booking> b= driver.get().getBookings();
+////            List<Booking> bookings = bookingRepository.findAllByDriver_Id(1L);
+//            System.out.println("Total bookings: " + b.size());
+//            for(Booking booking : b){
+//                System.out.println("ID: " + booking.getId());
+//
+//            }
+//        }
+        Optional<Driver> drivers = driverRepository.rawFindByIdAndLicenseNumber(1L,"LIC20002");
+        System.out.println(drivers.get().getName());
+        Optional<Driver> driver= driverRepository.rawFindByIdAndLicense(2L,"LIC20003");
+        System.out.println(driver.get().getName());
     }
 }
