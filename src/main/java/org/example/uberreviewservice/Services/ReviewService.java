@@ -11,9 +11,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class ReviewService implements CommandLineRunner {
@@ -58,16 +56,24 @@ public class ReviewService implements CommandLineRunner {
 //        if(driver.isPresent()){
 //            System.out.println("Driver Name : "+driver.get().getName());
 //            List<Booking> b= driver.get().getBookings();
-////            List<Booking> bookings = bookingRepository.findAllByDriver_Id(1L);
+//           List<Booking> bookings = bookingRepository.findAllByDriver_Id(1L);
 //            System.out.println("Total bookings: " + b.size());
 //            for(Booking booking : b){
 //                System.out.println("ID: " + booking.getId());
 //
 //            }
 //        }
-        Optional<Driver> drivers = driverRepository.rawFindByIdAndLicenseNumber(1L,"LIC20002");
-        System.out.println(drivers.get().getName());
-        Optional<Driver> driver= driverRepository.rawFindByIdAndLicense(2L,"LIC20003");
-        System.out.println(driver.get().getName());
+//        Optional<Driver> drivers = driverRepository.rawFindByIdAndLicenseNumber(1L,"LIC20002");
+//        System.out.println(drivers.get().getName());
+//        Optional<Driver> driver= driverRepository.rawFindByIdAndLicense(2L,"LIC20003");
+//        System.out.println(driver.get().getName());
+        List<Long> DriverIDs = new ArrayList<>(Arrays.asList(1L,2L,3L,4L,5L,6L));
+        List<Driver> Drivers = driverRepository.findAllByIdIn(DriverIDs);
+
+        for(Driver driver : Drivers){
+            List<Booking>bookings = driver.getBookings();
+            bookings.forEach(booking -> System.out.println(booking.getId()));
+        }
+
     }
 }
